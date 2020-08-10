@@ -11,7 +11,7 @@ namespace WpfUI.ViewModel
     public class DatabaseHelper
     {
         // The databse will be located where the project is evetually stored
-        private static string dbFile = Path.Combine(Environment.CurrentDirectory, "notesDb.db3");
+        public static string dbFile = Path.Combine(Environment.CurrentDirectory, "notesDb.db3");
 
         public static bool Insert<T>(T item)
         {

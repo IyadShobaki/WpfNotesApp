@@ -23,5 +23,28 @@ namespace WpfUI.View
         {
             InitializeComponent();
         }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void contentRichTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            int amountOfCharacters = (new TextRange(contentRichTextBox.Document.ContentStart, contentRichTextBox.Document.ContentEnd)).Text.Length;
+            statusTextBlock.Text = $"Document length: {amountOfCharacters} characters";
+        }
+
+        private void boldButton_Click(object sender, RoutedEventArgs e)
+        {
+            //var textToBold = new TextRange(contentRichTextBox.Selection.Start, contentRichTextBox.Selection.End);
+            contentRichTextBox.Selection.ApplyPropertyValue(Inline.FontWeightProperty, FontWeights.Bold);
+
+        }
     }
 }
