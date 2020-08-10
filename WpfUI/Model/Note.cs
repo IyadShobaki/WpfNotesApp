@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace WpfUI.Model
     {
         private int _id;
 
+        [PrimaryKey, AutoIncrement]
         public int Id
         {
             get { return _id; }
@@ -21,7 +23,7 @@ namespace WpfUI.Model
             }
         }
         private int _notebookId;
-
+        [Indexed]
         public int NotebookId
         {
             get { return _notebookId; }
