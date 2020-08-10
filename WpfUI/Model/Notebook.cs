@@ -1,0 +1,47 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace WpfUI.Model
+{
+    public class Notebook : INotifyPropertyChanged
+    {
+        private int _id;
+
+        public int Id
+        {
+            get { return _id; }
+            set 
+            {
+                _id = value;
+                OnPropertyChanged("Id");
+            }
+        }
+
+        private int _userId;
+
+        public int UserId
+        {
+            get { return _userId; }
+            set 
+            {
+                _userId = value;
+                OnPropertyChanged("UserId");
+            }
+        }
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+}
