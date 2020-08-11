@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -55,21 +56,39 @@ namespace WpfUI.View
             Application.Current.Shutdown();
         }
 
-        bool IsRecognizing = false;
         private void speechButton_Click(object sender, RoutedEventArgs e)
         {
-            if (IsRecognizing == false)
+            bool isButtonEnabled = (sender as ToggleButton).IsChecked ?? false;
+            // IsChecked has 3 states (true, false and null)
+            // by adding  - ?? false; - its mean if its null make it false
+            // So (null or false) the value will be false
+
+            if (isButtonEnabled)
             {
                 recognizer.RecognizeAsync(RecognizeMode.Multiple);
-                IsRecognizing = true;
             }
             else
             {
                 recognizer.RecognizeAsyncStop();
-                IsRecognizing = false;
             }
-            
+
         }
+        // Before we switch from Button to ToggleButton
+        //bool IsRecognizing = false;
+        //private void speechButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (IsRecognizing == false)
+        //    {
+        //        recognizer.RecognizeAsync(RecognizeMode.Multiple);
+        //        IsRecognizing = true;
+        //    }
+        //    else
+        //    {
+        //        recognizer.RecognizeAsyncStop();
+        //        IsRecognizing = false;
+        //    }
+
+        //}
 
         private void contentRichTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -79,9 +98,57 @@ namespace WpfUI.View
 
         private void boldButton_Click(object sender, RoutedEventArgs e)
         {
-            //var textToBold = new TextRange(contentRichTextBox.Selection.Start, contentRichTextBox.Selection.End);
-            contentRichTextBox.Selection.ApplyPropertyValue(Inline.FontWeightProperty, FontWeights.Bold);
+            bool isButtonEnabled = (sender as ToggleButton).IsChecked ?? false;
+            if (isButtonEnabled)
+            {
+                contentRichTextBox.Selection.ApplyPropertyValue(Inline.FontWeightProperty, FontWeights.Bold);
+            }
+            else
+            {
+                contentRichTextBox.Selection.ApplyPropertyValue(Inline.FontWeightProperty, FontWeights.Normal);
+            }
+            
 
+        }
+
+        private void contentRichTextBox_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            var selectedWeight = contentRichTextBox.Selection.GetPropertyValue(Inline.FontWeightProperty);
+            boldButton.IsChecked = (selectedWeight != DependencyProperty.UnsetValue) && (selectedWeight.Equals(FontWeights.Bold));
+
+            var selectedStyle = contentRichTextBox.Selection.GetPropertyValue(Inline.FontStyleProperty);
+            italicButton.IsChecked = (selectedStyle != DependencyProperty.UnsetValue) && (selectedStyle.Equals(FontStyles.Italic));
+
+            var selectedDecoration = contentRichTextBox.Selection.GetPropertyValue(Inline.TextDecorationsProperty);
+            underlineButton.IsChecked = (selectedDecoration != DependencyProperty.UnsetValue) && (selectedDecoration.Equals(TextDecorations.Underline));
+        }
+
+        private void italicButton_Click(object sender, RoutedEventArgs e)
+        {
+            bool isButtonEnabled = (sender as ToggleButton).IsChecked ?? false;
+            if (isButtonEnabled)
+            {
+                contentRichTextBox.Selection.ApplyPropertyValue(Inline.FontStyleProperty, FontStyles.Italic);
+            }
+            else
+            {
+                contentRichTextBox.Selection.ApplyPropertyValue(Inline.FontStyleProperty, FontStyles.Normal);
+            }
+        }
+
+        private void underlineButton_Click(object sender, RoutedEventArgs e)
+        {
+            bool isButtonEnabled = (sender as ToggleButton).IsChecked ?? false;
+            if (isButtonEnabled)
+            {
+                contentRichTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Underline);
+            }
+            else
+            {
+                TextDecorationCollection textDecorations;
+                (contentRichTextBox.Selection.GetPropertyValue(Inline.TextDecorationsProperty) as TextDecorationCollection).TryRemove(TextDecorations.Underline, out textDecorations);
+                contentRichTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, textDecorations);
+            }
         }
     }
 }
