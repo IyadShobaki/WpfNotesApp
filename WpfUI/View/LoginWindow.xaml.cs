@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfUI.ViewModel;
 
 namespace WpfUI.View
 {
@@ -22,6 +23,27 @@ namespace WpfUI.View
         public LoginWindow()
         {
             InitializeComponent();
+
+            LoginVM vm = new LoginVM();
+            containerGrid.DataContext = vm;
+            vm.HasLoggedIn += Vm_HasLoggedIn;
+        }
+
+        private void Vm_HasLoggedIn(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void haveAccountButton_Click(object sender, RoutedEventArgs e)
+        {
+            registerStackPanel.Visibility = Visibility.Collapsed;
+            loginStackPanel.Visibility = Visibility.Visible;
+        }
+
+        private void noAccountButton_Click(object sender, RoutedEventArgs e)
+        {
+            registerStackPanel.Visibility = Visibility.Visible;
+            loginStackPanel.Visibility = Visibility.Collapsed;
         }
     }
 }
