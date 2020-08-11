@@ -20,8 +20,8 @@ namespace WpfUI.ViewModel
             get { return _selectedNotebook; }
             set
             {
-                _selectedNotebook = value; 
-                //TODO - Get notes
+                _selectedNotebook = value;
+                ReadNotes();
             }
         }
 
@@ -40,6 +40,7 @@ namespace WpfUI.ViewModel
             Notes = new ObservableCollection<Note>();
 
             ReadNotebooks();
+            ReadNotes();
         }
 
         public void CreateNotebook()
@@ -50,6 +51,8 @@ namespace WpfUI.ViewModel
             };
 
             DatabaseHelper.Insert(newNotebook);
+
+            ReadNotebooks();
         }
 
         public void CreateNote(int notebookId)
@@ -63,6 +66,8 @@ namespace WpfUI.ViewModel
             };
 
             DatabaseHelper.Insert(newNote);
+
+            ReadNotes();
         }
 
         public void ReadNotebooks()
