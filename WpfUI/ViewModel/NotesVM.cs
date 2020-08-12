@@ -28,17 +28,34 @@ namespace WpfUI.ViewModel
 
         private Notebook _selectedNotebook;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public Notebook SelectedNotebook
         {
             get { return _selectedNotebook; }
             set
             {
                 _selectedNotebook = value;
-                ReadNotes();
+                OnPropertyChanged("SelectedNotebook");
+                if (_selectedNotebook != null)
+                {
+                    ReadNotes();
+                }
+               
             }
         }
+
+        private Note _selectedNote;
+
+        public Note SelectedNote
+        {
+            get { return _selectedNote; }
+            set 
+            { 
+                _selectedNote = value;
+                SelectedNoteChanged(this, new EventArgs());
+            }
+        }
+
+
 
         public ObservableCollection<Note> Notes { get; set; }
 
@@ -50,6 +67,8 @@ namespace WpfUI.ViewModel
 
         public HasEditedCommand HasEditedCommand { get; set; }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler SelectedNoteChanged;
         public NotesVM()
         {
             IsEditing = false;
@@ -152,6 +171,11 @@ namespace WpfUI.ViewModel
                 IsEditing = false;
                 ReadNotebooks();
             }
+        }
+
+        public void UpdateSelectedNote()
+        {
+            DatabaseHelper.Update(SelectedNote);
         }
     }
 }

@@ -41,9 +41,10 @@ namespace WpfUI.View.UserControls
 
             if (note != null)
             {
-                note.titleTextBlock.Text = (e.NewValue as Note).Title;
-                note.editedTextBlock.Text = (e.NewValue as Note).UpdatedTime.ToShortDateString();
-                note.contentTextBlock.Text = (e.NewValue as Note).Title;
+                note.DataContext = note.Note;
+                //note.titleTextBlock.Text = (e.NewValue as Note).Title;
+                //note.editedTextBlock.Text = (e.NewValue as Note).UpdatedTime.ToShortDateString();
+                //note.contentTextBlock.Text = (e.NewValue as Note).Title;
             }
         }
 
