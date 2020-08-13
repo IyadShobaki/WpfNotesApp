@@ -68,6 +68,9 @@ namespace WpfUI.ViewModel
 
         public HasEditedCommand HasEditedCommand { get; set; }
 
+        public DeleteNotebookCommand DeleteNotebookCommand { get; set; }
+        public DeleteNoteCommand DeleteNoteCommand { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler SelectedNoteChanged;
         public NotesVM()
@@ -79,6 +82,9 @@ namespace WpfUI.ViewModel
 
             BeginEditCommand = new BeginEditCommand(this);
             HasEditedCommand = new HasEditedCommand(this);
+
+            DeleteNotebookCommand = new DeleteNotebookCommand(this);
+            DeleteNoteCommand = new DeleteNoteCommand(this);
 
             Notebooks = new ObservableCollection<Notebook>();
             Notes = new ObservableCollection<Note>();
@@ -121,6 +127,32 @@ namespace WpfUI.ViewModel
             DatabaseHelper.Insert(newNote);
 
             ReadNotes();
+        }
+
+        public async void DeleteNotebook(Notebook notebook)
+        {
+            try
+            {
+                DatabaseHelper.Delete(notebook);
+                ReadNotebooks();
+            }
+            catch (Exception ex)
+            {
+           
+            }
+        }
+
+        public async void DeleteNote(Note note)
+        {
+            try
+            {
+                DatabaseHelper.Delete(note);
+                ReadNotes();
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         public void ReadNotebooks()

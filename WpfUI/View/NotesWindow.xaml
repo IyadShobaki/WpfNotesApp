@@ -9,12 +9,15 @@
         xmlns:uc="clr-namespace:WpfUI.View.UserControls"
         xmlns:cv="clr-namespace:WpfUI.ViewModel.Converters"
         mc:Ignorable="d"
-        Title="NotesWindow" Height="400" Width="700">
+        Title="Notes" 
+        Icon="/Notes.ico"
+        Height="400" 
+        Width="700">
     <Window.Resources>
         <vm:NotesVM x:Key="vm"/>
         <cv:BoolToVisConverter x:Key="boolToVis"/>
     </Window.Resources>
-    
+
     <DockPanel x:Name="container">
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
@@ -55,6 +58,9 @@
                             <ContextMenu>
                                 <MenuItem Header="Rename"
                                           Command="{Binding Source={StaticResource vm}, Path=BeginEditCommand}"/>
+                                <MenuItem Header="Delete"
+                                          Command="{Binding Source={StaticResource vm}, Path=DeleteNotebookCommand}"
+                                          CommandParameter="{Binding}"/>
                             </ContextMenu>
                         </Grid.ContextMenu>
                     </Grid>
@@ -67,7 +73,15 @@
                   ItemsSource="{Binding Notes}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <uc:NoteControl Note="{Binding}"/>
+                    <uc:NoteControl Note="{Binding}">
+                        <uc:NoteControl.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Delete"
+                                      Command="{Binding Source={StaticResource vm}, Path=DeleteNoteCommand}"
+                                      CommandParameter="{Binding}"/>
+                            </ContextMenu>
+                        </uc:NoteControl.ContextMenu>
+                    </uc:NoteControl>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
@@ -103,9 +117,13 @@
             </ToolBar>
         </ToolBarTray>
         <Grid>
-            <RichTextBox x:Name="contentRichTextBox"
+            <StackPanel>
+                <TextBox Margin="10"
+                     Text="{Binding Path=SelectedNote.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <RichTextBox x:Name="contentRichTextBox"
                          SelectionChanged="contentRichTextBox_SelectionChanged"
                          TextChanged="contentRichTextBox_TextChanged"/>
+            </StackPanel>
         </Grid>
     </DockPanel>
 </Window>

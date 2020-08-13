@@ -30,7 +30,8 @@ namespace WpfUI.View
         {
             InitializeComponent();
 
-            viewModel = new NotesVM();
+            //viewModel = new NotesVM();
+            viewModel = this.Resources["vm"] as NotesVM;
             container.DataContext = viewModel;
             viewModel.SelectedNoteChanged += ViewModel_SelectedNoteChanged;
 

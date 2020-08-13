@@ -6,7 +6,10 @@
         xmlns:local="clr-namespace:WpfUI.View"
         xmlns:vm="clr-namespace:WpfUI.ViewModel"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="300" Width="300">
+        Title="Login"
+        Icon="/Notes.ico"
+        Height="300"
+        Width="300">
     <Window.Resources>
         <vm:LoginVM x:Key="login"/>
         <Storyboard x:Key="MoveUp">

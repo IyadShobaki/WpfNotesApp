@@ -8,12 +8,13 @@ using WpfUI.Model;
 
 namespace WpfUI.ViewModel.Commands
 {
-    public class DeleteNotebookCommand : ICommand
+    public class DeleteNoteCommand : ICommand
     {
         public NotesVM VM { get; set; }
+
         public event EventHandler CanExecuteChanged;
 
-        public DeleteNotebookCommand(NotesVM vm)
+        public DeleteNoteCommand(NotesVM vm)
         {
             VM = vm;
         }
@@ -25,10 +26,11 @@ namespace WpfUI.ViewModel.Commands
 
         public void Execute(object parameter)
         {
-            Notebook notebook = parameter as Notebook;
-            if (notebook != null)
+            var note = parameter as Note;
+
+            if (note != null)
             {
-                VM.DeleteNotebook(notebook);
+                VM.DeleteNote(note);
             }
         }
     }
