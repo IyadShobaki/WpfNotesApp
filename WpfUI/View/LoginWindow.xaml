@@ -9,19 +9,109 @@
         Title="LoginWindow" Height="300" Width="300">
     <Window.Resources>
         <vm:LoginVM x:Key="login"/>
+        <Storyboard x:Key="MoveUp">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="button">
+                <EasingDoubleKeyFrame KeyTime="0" Value="22">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="4.3999999999999986">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <BackEase EasingMode="EaseInOut" Amplitude="2"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <BounceEase EasingMode="EaseInOut" Bounces="15" Bounciness="-12"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="containerGrid">
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="button">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <BackEase EasingMode="EaseInOut" Amplitude="2"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <BounceEase EasingMode="EaseInOut" Bounces="15" Bounciness="-12"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="button">
+                <EasingDoubleKeyFrame KeyTime="0" Value="155">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="255">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <BackEase EasingMode="EaseInOut" Amplitude="2"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Height)" Storyboard.TargetName="button">
+                <EasingDoubleKeyFrame KeyTime="0" Value="12">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="20">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <BackEase EasingMode="EaseInOut" Amplitude="2"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
     </Window.Resources>
-    
-    <Grid x:Name="containerGrid">
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource MoveUp}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="haveAccountButton">
+            <BeginStoryboard Storyboard="{StaticResource MoveUp}"/>
+        </EventTrigger>
+    </Window.Triggers>
+
+    <Grid x:Name="containerGrid" RenderTransformOrigin="0.5,0.5">
+        <Grid.RenderTransform>
+            <TransformGroup>
+                <ScaleTransform/>
+                <SkewTransform/>
+                <RotateTransform/>
+                <TranslateTransform/>
+            </TransformGroup>
+        </Grid.RenderTransform>
         <StackPanel x:Name="loginStackPanel" Margin="20, 0"
                     VerticalAlignment="Center">
+            <TextBlock Text="Username:"/>
             <TextBox Text="{Binding User.Username, Mode=TwoWay}"/>
+            <TextBlock Text="Password:"/>
             <TextBox Text="{Binding User.Password, Mode=TwoWay}"
                      Margin="0 5 0 0"/>
 
-            <Button Margin="0 5 0 0"
+            <Button x:Name="button" Margin="0 5 0 0"
                     Command="{Binding LoginCommand}"
                     CommandParameter="{Binding User}"
-                    Content="Login"/>
+                    Content="Login" RenderTransformOrigin="0.5,0.5" Width="255" Height="20">
+                <Button.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Button.RenderTransform>
+            </Button>
             <Button x:Name="noAccountButton"
                     Margin="0 5 0 0"
                     Content="I don't have an account"
@@ -32,13 +122,18 @@
                     Visibility="Collapsed"
                     Margin="20, 0"
                     VerticalAlignment="Center">
+            <TextBlock Text="Username:"/>
             <TextBox Text="{Binding User.Username, Mode=TwoWay}"/>
+            <TextBlock Text="Email:"/>
             <TextBox Text="{Binding User.Email, Mode=TwoWay}"
                      Margin="0 5 0 0"/>
+            <TextBlock Text="First Name:"/>
             <TextBox Text="{Binding User.FirstName, Mode=TwoWay}"
                      Margin="0 5 0 0"/>
+            <TextBlock Text="Last Name:"/>
             <TextBox Text="{Binding User.LastName, Mode=TwoWay}"
                      Margin="0 5 0 0"/>
+            <TextBlock Text="Password:"/>
             <TextBox Text="{Binding User.Password, Mode=TwoWay}"
                      Margin="0 5 0 0"/>
             <Button Margin="0 5 0 0"

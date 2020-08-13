@@ -52,6 +52,7 @@ namespace WpfUI.ViewModel
             { 
                 _selectedNote = value;
                 SelectedNoteChanged(this, new EventArgs());
+                OnPropertyChanged("SelectedNote");
             }
         }
 
